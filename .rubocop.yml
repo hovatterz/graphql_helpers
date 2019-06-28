@@ -1,0 +1,11 @@
+Metrics/LineLength:
+  Max: 100
+
+Metrics/BlockLength:
+  Exclude:
+    - test/**/*
+    - graphql_helpers.gemspec
+
+Metrics/MethodLength:
+  Exclude:
+    - test/**/*
