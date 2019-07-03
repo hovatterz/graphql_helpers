@@ -35,4 +35,6 @@ ActiveRecord::Base.transaction do
     email: 'testperson2@test.com',
     user: user_two
   )
+
+  SchoolBus.create!(wheels: 3)
 end

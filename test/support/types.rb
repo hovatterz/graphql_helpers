@@ -28,4 +28,9 @@ module Types
       record.user = ctx[:current_user] unless record.user_id.present?
     end
   end
+
+  class SchoolBusType < GraphQL::Schema::Object
+    field :id, ID, null: false
+    field :wheels, Integer, null: false
+  end
 end

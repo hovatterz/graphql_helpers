@@ -82,3 +82,13 @@ class ContactPolicy < BasePolicy
     user == record.user
   end
 end
+
+class SchoolBusPolicy < BasePolicy
+  def permitted_attributes
+    %i[wheels]
+  end
+
+  def create?
+    true
+  end
+end

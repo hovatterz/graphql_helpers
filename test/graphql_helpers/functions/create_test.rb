@@ -22,6 +22,17 @@ module GraphQLHelpers
 
         assert_equal 'New', Contact.last.first_name
       end
+
+      def test_creates_underscored_model_type
+        arguments = {
+          'schoolBus' => {
+            'wheels' => 5
+          }
+        }
+        Create.new(SchoolBus).call(nil, arguments, {})
+
+        assert_equal 5, SchoolBus.last.wheels
+      end
     end
   end
 end

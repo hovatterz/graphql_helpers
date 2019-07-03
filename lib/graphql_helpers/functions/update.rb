@@ -13,14 +13,14 @@ module GraphQLHelpers
       end
 
       def call(_obj, args, ctx)
-        params = args[@param_key].to_h.with_indifferent_access
-        id = params.delete(@model.primary_key)
+        attributes = Services::Attributes.new.call(@model, args)
+        id = attributes[@param_key].delete(@model.primary_key)
 
         record = Services::Authorize.new.call(ctx, @model.find(id), :update?)
 
         Services::Callbacks.new.call(@type, :update, ctx, record) do
-          attributes = Services::PermittedAttributes.new.call(ctx, @model, params, :create)
-          record.update!(attributes)
+          params = Services::PermittedParams.new.call(ctx, @model, attributes, :create)
+          record.update!(params)
         end
 
         record

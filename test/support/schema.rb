@@ -21,4 +21,10 @@ ActiveRecord::Schema.define do
 
     t.timestamps
   end
+
+  create_table :school_buses do |t|
+    t.integer :wheels
+
+    t.timestamps
+  end
 end
