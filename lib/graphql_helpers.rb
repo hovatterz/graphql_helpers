@@ -14,6 +14,7 @@ require 'graphql_helpers/functions/find_all'
 require 'graphql_helpers/functions/find_by_id'
 require 'graphql_helpers/functions/create'
 require 'graphql_helpers/functions/update'
+require 'graphql_helpers/functions/destroy'
 
 module GraphQLHelpers
   class Error < StandardError; end

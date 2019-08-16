@@ -81,6 +81,12 @@ class ContactPolicy < BasePolicy
 
     user == record.user
   end
+
+  def destroy?
+    return true if user.role == 'admin'
+
+    user == record.user
+  end
 end
 
 class SchoolBusPolicy < BasePolicy
