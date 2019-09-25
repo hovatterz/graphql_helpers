@@ -47,4 +47,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'graphql', '>= 1.9'
   spec.add_dependency 'pundit', '>= 2'
   spec.add_dependency 'rails', '>= 5'
+  spec.add_dependency 'ransack', '>= 2.3'
 end
