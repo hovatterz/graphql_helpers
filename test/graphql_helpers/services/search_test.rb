@@ -22,6 +22,16 @@ module GraphQLHelpers
         contacts = Search.new.call(Contact.all, args)
         assert_equal Contact.where(last_name: 'Person2').to_a, contacts.to_a
       end
+
+      def test_can_sort_with_ransack
+        args = {
+          filters: {
+            s: 'lastName desc'
+          }
+        }
+        contacts = Search.new.call(Contact.all, args)
+        assert_equal Contact.order('last_name desc').to_a, contacts.to_a
+      end
     end
   end
 end
