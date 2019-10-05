@@ -16,7 +16,7 @@ module GraphQLHelpers
 
         args = {
           filters: {
-            last_name_eq: 'Person2'
+            lastNameEq: 'Person2'
           }
         }
         contacts = Search.new.call(Contact.all, args)
