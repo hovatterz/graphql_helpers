@@ -6,6 +6,8 @@ module GraphQLHelpers
     class FindAll < GraphQL::Function
       attr_reader :type
 
+      argument :filters, GraphQL::Types::JSON
+
       def initialize(model, connection: false, resolver: nil)
         @model = model
         @resolver = resolver
@@ -18,7 +20,11 @@ module GraphQLHelpers
 
       def call(obj, args, ctx)
         Services::Authorize.new.call(ctx, @model, :index?)
-        Services::Scope.new.call(ctx, @resolver.nil? ? @model : @resolver.call(obj, args, ctx))
+        resolver = @resolver.nil? ? @model : @resolver.call(obj, args, ctx)
+        result = Services::Scope.new.call(ctx, resolver)
+        return result unless args[:filters].present?
+
+        Services::Search.new.call(result, args)
       end
     end
   end
