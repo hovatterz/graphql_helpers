@@ -4,9 +4,13 @@ module GraphQLHelpers
   module Services
     # Applies a Ransack search
     class Search
-      def call(relation, args, distinct = false)
-        underscored = args[:filters].to_h.deep_transform_keys { |key| key.to_s.underscore }
+      def call(relation, filters, distinct = false)
+        filters = filters.to_unsafe_h if filters.respond_to?(:to_unsafe_h)
+        underscored = filters
+                      .deep_transform_keys { |k| k.to_s.underscore }
+                      .with_indifferent_access
         underscored['s'] = underscored['s'].underscore if underscored['s'].present?
+
         query = relation.ransack(underscored)
         query.result(distinct: distinct)
       end

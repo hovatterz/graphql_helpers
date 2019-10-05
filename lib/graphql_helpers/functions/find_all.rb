@@ -24,7 +24,7 @@ module GraphQLHelpers
         result = Services::Scope.new.call(ctx, resolver)
         return result unless args[:filters].present?
 
-        Services::Search.new.call(result, args)
+        Services::Search.new.call(result, args[:filters])
       end
     end
   end
