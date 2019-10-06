@@ -38,7 +38,7 @@ module GraphQLHelpers
             object.nodes.size
           end
         end
-        Object.const_set("#{@model.class.name}ConnectionWithTotalCount", connection_type)
+        Object.const_set("#{@model.name}ConnectionWithTotalCount", connection_type)
         connection_type.send(:edge_type, @type_const.edge_type)
         connection_type
       end
