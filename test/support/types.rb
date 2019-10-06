@@ -37,7 +37,6 @@ module Types
   class QueryType < GraphQL::Schema::Object
     field :contacts,
           function: GraphQLHelpers::Functions::FindAll.new(Contact, connection: true),
-          connection: true,
           null: false
   end
 end

@@ -31,7 +31,7 @@ module GraphQLHelpers
       private
 
       def build_connection_type
-        connection_type = Class.new(GraphQL::Types::Relay::BaseConnection) do
+        connection_type = Class.new(@type_const.connection_type) do
           field :total_count, Integer, null: false
 
           def total_count
