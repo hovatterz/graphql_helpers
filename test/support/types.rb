@@ -33,4 +33,14 @@ module Types
     field :id, ID, null: false
     field :wheels, Integer, null: false
   end
+
+  class QueryType < GraphQL::Schema::Object
+    field :contacts,
+          function: GraphQLHelpers::Functions::FindAll.new(Contact, connection: true),
+          null: false
+  end
+end
+
+class HelperSchema < GraphQL::Schema
+  query(Types::QueryType)
 end

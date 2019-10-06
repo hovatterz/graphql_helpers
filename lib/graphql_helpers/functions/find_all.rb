@@ -11,10 +11,11 @@ module GraphQLHelpers
       def initialize(model, connection: false, resolver: nil)
         @model = model
         @resolver = resolver
+        @type_const = Types.const_get("Types::#{model.name}Type")
         @type = if connection
-                  Types.const_get("Types::#{model.name}Type").connection_type
+                  build_connection_type
                 else
-                  Types.const_get("Types::#{model.name}Type").to_list_type
+                  @type_const.to_list_type
                 end
       end
 
@@ -25,6 +26,21 @@ module GraphQLHelpers
         return result unless args[:filters].present?
 
         Services::Search.new.call(result, args[:filters])
+      end
+
+      private
+
+      def build_connection_type
+        connection_type = Class.new(GraphQL::Types::Relay::BaseConnection) do
+          field :total_count, Integer, null: false
+
+          def total_count
+            object.nodes.size
+          end
+        end
+        Object.const_set("#{@model.class.name}ConnectionWithTotalCount", connection_type)
+        connection_type.send(:edge_type, @type_const.edge_type)
+        connection_type
       end
     end
   end

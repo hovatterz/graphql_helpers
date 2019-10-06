@@ -28,6 +28,25 @@ module GraphQLHelpers
         assert_equal 1, records.count
         assert_equal contact.id, records.first.id
       end
+
+      def test_it_provides_total_count_for_connections
+        context = { current_user: User.find_by!(email: 'adminuser@test.com') }
+
+        query_string = <<-GRAPHQL
+        {
+          contacts(first: 1) {
+            totalCount
+            nodes {
+              id
+              firstName
+              lastName
+            }
+          }
+        }
+        GRAPHQL
+        result = HelperSchema.execute(query_string, context: context)
+        assert_equal 2, result['data']['contacts']['totalCount']
+      end
     end
   end
 end
