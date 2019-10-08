@@ -6,7 +6,9 @@ module GraphQLHelpers
     class FindAll < GraphQL::Function
       attr_reader :type
 
-      argument :filters, GraphQL::Types::JSON
+      argument :filters, GraphQL::Types::JSON, default_value: nil
+      argument :page, GraphQL::Types::Int, default_value: nil
+      argument :perPage, GraphQL::Types::Int, default_value: nil
 
       def initialize(model, connection: false, resolver: nil)
         @model = model
@@ -22,10 +24,11 @@ module GraphQLHelpers
       def call(obj, args, ctx)
         Services::Authorize.new.call(ctx, @model, :index?)
         resolver = @resolver.nil? ? @model : @resolver.call(obj, args, ctx)
+        snaked = args.to_h.deep_transform_keys { |k| k.to_s.underscore }
         result = Services::Scope.new.call(ctx, resolver)
-        return result unless args[:filters].present?
-
-        Services::Search.new.call(result, args[:filters])
+        result = Services::Search.new.call(result, snaked)
+        result = Services::Paginate.new.call(result, snaked)
+        result
       end
 
       private

@@ -6,24 +6,30 @@ module GraphQLHelpers
   module Services
     class SearchTest < Minitest::Test
       def test_can_search_with_ransack
-        filters = {
-          last_name_matches: 'Person%'
+        args = {
+          filters: {
+            last_name_matches: 'Person%'
+          }
         }
-        contacts = Search.new.call(Contact.all, filters)
+        contacts = Search.new.call(Contact.all, args)
         assert_equal Contact.where('last_name LIKE "Person%"').to_a, contacts.to_a
 
-        filters = {
-          lastNameEq: 'Person2'
+        args = {
+          filters: {
+            lastNameEq: 'Person2'
+          }
         }
-        contacts = Search.new.call(Contact.all, filters)
+        contacts = Search.new.call(Contact.all, args)
         assert_equal Contact.where(last_name: 'Person2').to_a, contacts.to_a
       end
 
       def test_can_sort_with_ransack
-        filters = {
-          s: 'lastName desc'
+        args = {
+          filters: {
+            s: 'lastName desc'
+          }
         }
-        contacts = Search.new.call(Contact.all, filters)
+        contacts = Search.new.call(Contact.all, args)
         assert_equal Contact.order('last_name desc').to_a, contacts.to_a
       end
     end
