@@ -36,15 +36,25 @@ module GraphQLHelpers
         {
           contacts(first: 1) {
             totalCount
-            nodes {
-              id
-              firstName
-              lastName
+            edges {
+              cursor
+              node {
+                id
+                firstName
+                lastName
+              }
+            }
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
             }
           }
         }
         GRAPHQL
         result = HelperSchema.execute(query_string, context: context)
+        assert_equal 1, result['data']['contacts']['edges'].count
         assert_equal 2, result['data']['contacts']['totalCount']
       end
     end
