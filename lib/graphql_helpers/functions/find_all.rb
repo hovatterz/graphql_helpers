@@ -21,15 +21,17 @@ module GraphQLHelpers
                 end
       end
 
+      # rubocop:disable Metrics/AbcSize
       def call(obj, args, ctx)
         Services::Authorize.new.call(ctx, @model, :index?)
         resolver = @resolver.nil? ? @model : @resolver.call(obj, args, ctx)
-        snaked = args.to_h.deep_transform_keys { |k| k.to_s.underscore }
+        snaked = args.to_h.deep_transform_keys { |k| k.to_s.underscore }.with_indifferent_access
         result = Services::Scope.new.call(ctx, resolver)
         result = Services::Search.new.call(result, snaked)
         result = Services::Paginate.new.call(result, snaked)
         result
       end
+      # rubocop:enable Metrics/AbcSize
 
       private
 
