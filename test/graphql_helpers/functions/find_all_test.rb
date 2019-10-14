@@ -36,6 +36,7 @@ module GraphQLHelpers
         {
           contacts(first: 1) {
             totalCount
+            pageHash
             edges {
               cursor
               node {
