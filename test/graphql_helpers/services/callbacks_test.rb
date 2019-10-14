@@ -14,7 +14,7 @@ end
 
 module GraphQLHelpers
   module Services
-    class CallbacksTest < Minitest::Test
+    class CallbacksTest < TestCase
       def test_calls_before_after_methods_arond_block
         context = {}
         record = Minitest::Mock.new

@@ -4,7 +4,7 @@ require 'test_helper'
 
 module GraphQLHelpers
   module Services
-    class AuthorizeTest < Minitest::Test
+    class AuthorizeTest < TestCase
       def test_can_authorize_function_with_pundit
         service = Authorize.new
         context = { current_user: User.find_by!(email: 'firstuser@test.com') }

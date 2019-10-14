@@ -4,7 +4,7 @@ require 'test_helper'
 
 module GraphQLHelpers
   module Services
-    class PaginateTest < Minitest::Test
+    class PaginateTest < TestCase
       def test_can_authorize_function_with_pundit
         args = {
           per_page: 1,

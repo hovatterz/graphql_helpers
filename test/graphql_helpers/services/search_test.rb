@@ -4,7 +4,7 @@ require 'test_helper'
 
 module GraphQLHelpers
   module Services
-    class SearchTest < Minitest::Test
+    class SearchTest < TestCase
       def test_can_search_with_ransack
         args = {
           filters: {
@@ -16,7 +16,7 @@ module GraphQLHelpers
 
         args = {
           filters: {
-            lastNameEq: 'Person2'
+            last_name_eq: 'Person2'
           }
         }
         contacts = Search.new.call(Contact.all, args)
@@ -26,7 +26,7 @@ module GraphQLHelpers
       def test_can_sort_with_ransack
         args = {
           filters: {
-            s: 'lastName desc'
+            s: 'last_name desc'
           }
         }
         contacts = Search.new.call(Contact.all, args)

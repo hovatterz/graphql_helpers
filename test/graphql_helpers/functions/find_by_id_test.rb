@@ -4,7 +4,7 @@ require 'test_helper'
 
 module GraphQLHelpers
   module Functions
-    class FindByIdTest < Minitest::Test
+    class FindByIdTest < TestCase
       def test_responds_to_type_with_graphql_type
         assert_equal Types::ContactType, FindById.new(Contact).type
       end

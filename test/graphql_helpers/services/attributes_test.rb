@@ -4,7 +4,7 @@ require 'test_helper'
 
 module GraphQLHelpers
   module Services
-    class AttributesTest < Minitest::Test
+    class AttributesTest < TestCase
       def test_snake_cases_attribute_keys
         args = { 'schoolBus' => { 'wheels' => 3 } }
         expected = { 'school_bus' => { 'wheels' => 3 } }

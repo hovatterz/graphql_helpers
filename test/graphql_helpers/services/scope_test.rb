@@ -4,7 +4,7 @@ require 'test_helper'
 
 module GraphQLHelpers
   module Services
-    class ScopeTest < Minitest::Test
+    class ScopeTest < TestCase
       def test_can_scope_a_function_with_pundit
         current_user = User.find_by!(email: 'firstuser@test.com')
         context = { current_user: current_user }

@@ -4,7 +4,7 @@ require 'test_helper'
 
 module GraphQLHelpers
   module Services
-    class PermittedParamsTest < Minitest::Test
+    class PermittedParamsTest < TestCase
       def test_can_provide_permitted_attributes_with_pundit
         context = { current_user: User.find_by!(email: 'firstuser@test.com') }
         test_attributes = {

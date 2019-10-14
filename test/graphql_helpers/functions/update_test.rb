@@ -4,7 +4,7 @@ require 'test_helper'
 
 module GraphQLHelpers
   module Functions
-    class UpdateTest < Minitest::Test
+    class UpdateTest < TestCase
       def test_responds_to_type_with_graphql_type
         assert_equal Types::ContactType, Update.new(Contact).type
       end
@@ -13,7 +13,7 @@ module GraphQLHelpers
         context = { current_user: User.find_by!(email: 'firstuser@test.com') }
         arguments = {
           'contact' => {
-            'id' => Contact.first.id,
+            'id' => Contact.find_by!(email: 'testperson1@test.com').id,
             'first_name' => 'Update Test'
           }
         }

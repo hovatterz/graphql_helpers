@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+connection = ActiveRecord::Base.connection
+connection.truncate_tables(*connection.tables)
+
 ActiveRecord::Base.transaction do
   User.create!(
     first_name: 'Admin',
