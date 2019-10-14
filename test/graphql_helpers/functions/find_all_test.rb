@@ -54,9 +54,39 @@ module GraphQLHelpers
         }
         GRAPHQL
         result = HelperSchema.execute(query_string, context: context)
+
         assert_equal 1, result['data']['contacts']['edges'].count
         assert_equal 2, result['data']['contacts']['totalCount']
       end
+
+      # rubocop:disable Metrics/AbcSize
+      def test_it_provides_offset_pagination
+        context = { current_user: User.find_by!(email: 'adminuser@test.com') }
+
+        query_string = <<-GRAPHQL
+        {
+          contacts(page: 2, perPage: 1) {
+            totalCount
+            edges {
+              cursor
+              node {
+                id
+                firstName
+                lastName
+              }
+            }
+          }
+        }
+        GRAPHQL
+
+        result = HelperSchema.execute(query_string, context: context)
+        data = result['data']['contacts']
+
+        assert_equal 1, data['edges'].count
+        assert_equal Contact.last.id, data['edges'][0]['node']['id'].to_i
+        assert_equal 2, data['totalCount']
+      end
+      # rubocop:enable Metrics/AbcSize
     end
   end
 end
