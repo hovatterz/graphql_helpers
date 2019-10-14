@@ -35,21 +35,9 @@ module GraphQLHelpers
 
       private
 
-      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def build_connection_type
         connection_type = Class.new(@type_const.connection_type) do
           field :total_count, Integer, null: false
-
-          def paged_nodes
-            puts object.arguments.inspect
-            return super unless object.arguments[:page].present? &&
-                                object.arguments[:perPage].present?
-
-            puts object.arguments.inspect
-            scope = object.nodes.limit(object.arguments[:perPage])
-            scope = scope.offset((object.arguments[:page] - 1) * object.arguments[:perPage])
-            scope
-          end
 
           def total_count
             object.nodes.unscope(:limit, :offset).count
@@ -60,7 +48,6 @@ module GraphQLHelpers
         connection_type.send(:edge_type, @type_const.edge_type)
         connection_type
       end
-      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
     end
   end
 end
