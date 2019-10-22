@@ -35,7 +35,11 @@ module GraphQLHelpers
 
       private
 
+      # rubocop:disable Metrics/MethodLength
       def build_connection_type
+        const_name = "#{@model.name}ConnectionWithTotalCount"
+        return const_name.constantize if Object.const_defined?(const_name)
+
         connection_type = Class.new(@type_const.connection_type) do
           field :total_count, Integer, null: false
 
@@ -44,10 +48,11 @@ module GraphQLHelpers
           end
         end
 
-        Object.const_set("#{@model.name}ConnectionWithTotalCount", connection_type)
+        Object.const_set(const_name, connection_type)
         connection_type.send(:edge_type, @type_const.edge_type)
         connection_type
       end
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end
