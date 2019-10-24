@@ -28,6 +28,7 @@ module GraphQLHelpers
         snaked = args.to_h.deep_transform_keys { |k| k.to_s.underscore }.with_indifferent_access
         result = Services::Scope.new.call(ctx, resolver)
         result = Services::Search.new.call(result, snaked)
+        result = Services::Includes.new.call(@model, result, ctx)
         result = Services::Paginate.new.call(result, snaked)
         result
       end

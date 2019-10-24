@@ -71,3 +71,5 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/hovatt
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+Much of this gem was inspired or copied from [northwind-graphql-ruby](https://github.com/tb/northwind-graphql-ruby)
